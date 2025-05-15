@@ -12,4 +12,9 @@ public class LoggingAspects {
     public void beforeGetBookAdvice(){
         System.out.println("beforeGetBookAdvice: попытка получить книгу");
     }
+
+    @Before("execution(public void returnBook())")
+    public void beforeReturntBookAdvice(){
+        System.out.println("beforeReturntBookAdvice: попытка вернуть книгу");
+    }
 }
