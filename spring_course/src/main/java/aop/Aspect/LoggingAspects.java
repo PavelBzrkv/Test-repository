@@ -1,13 +1,16 @@
 package aop.Aspect;
 
+import aop.Book;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-@Order(2)
+@Order(1)
 public class LoggingAspects {
 
 //    @Pointcut("execution(* aop.UniLibrary.*(..))")
@@ -56,19 +59,40 @@ public class LoggingAspects {
 
 
 //    @Pointcut("execution(*  get*())")
-//    private  void allGetMethods(){}
+//    private  void allAddtMethods(){}
 //
-//    @Before("allGetMethods()")
+//    @Before("allAddtMethods()")
 //    public void beforeGetLoggingAdvice(){
 //        System.out.println("beforeGetBookAdvice: попытка получить книгу");
 //    }
-//    @Before("allGetMethods()")
+//    @Before("allAddtMethods()")
 //    public void beforeGetSecurityAdvice(){
 //        System.out.println("beforeGetSecurityAdvice: проверка прав на получение книги/журнала");
 //    }
 
-    @Before("aop.Aspect.MyPointCut.allGetMethods()")
-    public void beforeGetLoggingAdvice(){
+    @Before("aop.Aspect.MyPointCut.allAddtMethods()")
+    public void beforeAddLoggingAdvice(JoinPoint joinPoint){
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        System.out.println("methodSignature = " + methodSignature);
+        System.out.println("methodSignature Method = " + methodSignature.getMethod());
+        System.out.println("methodSignature ReturnType= " + methodSignature.getReturnType());
+        System.out.println("methodSignature Name = " + methodSignature.getName());
+
+        if(methodSignature.getName().equals("addBook")){
+            Object [] arguments = joinPoint.getArgs();
+            for(Object obj: arguments){
+                if(obj instanceof Book){
+                    Book myBook = (Book) obj;
+                    System.out.println("Info: "+ myBook.getName()+" Author: "+
+                            myBook.getAuthor()+ " Year: "+
+                            myBook.getYearOfPublication());
+                }
+                else if (obj instanceof String) {
+                    System.out.println("Book add to library: " + obj);
+                }
+            }
+        }
         System.out.println("beforeGetBookAdvice: попытка получить книгу");
+        System.out.println("--------------------------------");
     }
 }
