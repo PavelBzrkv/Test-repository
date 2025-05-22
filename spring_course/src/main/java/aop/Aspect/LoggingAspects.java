@@ -2,35 +2,27 @@ package aop.Aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-public class LoggingAndSecurityAspects {
+@Order(2)
+public class LoggingAspects {
 
-    @Pointcut("execution(* aop.UniLibrary.*(..))")
-    private void allMethodsFromUniLibrary(){}
-
-    @Pointcut("execution(public void aop.UniLibrary.returnMagazine())")
-    private void returnMagazineFromUniLibrary(){}
-
-    @Pointcut("allMethodsFromUniLibrary() && !returnMagazineFromUniLibrary()")
-    private void allMethodsExceptReturnMagazineFromUniLibrary(){}
-
-    @Before("allMethodsExceptReturnMagazineFromUniLibrary()")
-    public void beforeAllMethodsExceptReturnMagazineAdvice(){
-        System.out.println("beforeAllMethodsExceptReturnMagazineAdvice: Log#10");
-    }
-
-
-
-
-
-
-
-
-
+//    @Pointcut("execution(* aop.UniLibrary.*(..))")
+//    private void allMethodsFromUniLibrary(){}
+//
+//    @Pointcut("execution(public void aop.UniLibrary.returnMagazine())")
+//    private void returnMagazineFromUniLibrary(){}
+//
+//    @Pointcut("allMethodsFromUniLibrary() && !returnMagazineFromUniLibrary()")
+//    private void allMethodsExceptReturnMagazineFromUniLibrary(){}
+//
+//    @Before("allMethodsExceptReturnMagazineFromUniLibrary()")
+//    public void beforeAllMethodsExceptReturnMagazineAdvice(){
+//        System.out.println("beforeAllMethodsExceptReturnMagazineAdvice: Log#10");
+//    }
 
 
 
@@ -75,5 +67,8 @@ public class LoggingAndSecurityAspects {
 //        System.out.println("beforeGetSecurityAdvice: проверка прав на получение книги/журнала");
 //    }
 
-
+    @Before("aop.Aspect.MyPointCut.allGetMethods()")
+    public void beforeGetLoggingAdvice(){
+        System.out.println("beforeGetBookAdvice: попытка получить книгу");
+    }
 }
