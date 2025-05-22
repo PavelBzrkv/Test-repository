@@ -13,7 +13,6 @@ public class Test2 {
         university.addStudents();
         try {
 
-
             List<Student> students = university.getStudents();
             System.out.println(students);
         } catch (Exception e) {
